@@ -28,3 +28,24 @@ class EKGAnalysis(models.Model):
     diagnosis = models.CharField(max_length=255, blank=True, null=True)
     recommended_medicine = models.TextField(blank=True, null=True)
     uploaded_at = models.DateTimeField(auto_now_add=True)
+
+
+class Disease(models.Model):
+    name = models.CharField(max_length=255)  # Kasallik nomi
+    symptoms = models.TextField()  # Kasallik belgilari
+    description = models.TextField()  # Kasallik haqida batafsil ma'lumot
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Medication(models.Model):
+    disease = models.ForeignKey(Disease, on_delete=models.CASCADE, related_name='medications')
+    name = models.CharField(max_length=255)  # Dori nomi
+    dosage = models.CharField(max_length=255)  # Qabul qilish dozalari
+    notes = models.TextField(blank=True, null=True)  # Qo'shimcha ma'lumot
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.name} (for {self.disease.name})"
