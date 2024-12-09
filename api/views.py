@@ -7,6 +7,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.conf import settings
+from drf_yasg.utils import swagger_auto_schema
 
 
 class AuthUserView(RetrieveAPIView):
@@ -38,6 +39,14 @@ class SetLanguageAPIView(APIView):
             status=status.HTTP_200_OK
         )
 
+    @swagger_auto_schema(
+        operation_description="Set the user's language preference.",
+        # request_body="language_code",
+        responses={
+            201: "Language setting successfully.",
+            400: "Invaild language code."
+        }
+    )
     def post(self, request, *args, **kwargs):
         print(request.data)
         language_code = request.data.get('language_code')  # Expecting JSON payload with "language_code"

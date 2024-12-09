@@ -9,6 +9,7 @@ from PIL import Image
 import cv2
 import numpy as np
 from scipy.signal import find_peaks
+from drf_yasg.utils import swagger_auto_schema
 
 
 class EKGImageView(ListCreateAPIView):
@@ -48,6 +49,14 @@ class EKGImageView(ListCreateAPIView):
         else:
             return "Normal Heart Rhythm", "No medicine needed"
 
+    @swagger_auto_schema(
+        operation_description="Analyze an EKG image and provide diagnosis.",
+        request_body=EKGAnalysisSerializer,
+        responses={
+            200: "EKG image analyzed successfully.",
+            400: "Invalid EKG image."
+        }
+    )
     def post(self, request, *args, **kwargs):
         file = request.data.get('image')
         patient_id = self.request.data.get('patient')

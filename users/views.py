@@ -4,9 +4,18 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import authenticate
 from .serializers import RegisterSerializer, LoginResponseSerializer
+from drf_yasg.utils import swagger_auto_schema
 
 
 class RegisterView(APIView):
+    @swagger_auto_schema(
+        operation_description="User registration endpoint.",
+        request_body=RegisterSerializer,
+        responses={
+            201: "User registered successfully.",
+            400: "User already exists."
+        }
+    )
     def post(self, request):
         serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():
@@ -16,6 +25,14 @@ class RegisterView(APIView):
 
 
 class LoginView(APIView):
+    @swagger_auto_schema(
+        operation_description="User login endpoint.",
+        request_body=LoginResponseSerializer,
+        responses={
+            200: "JWT Token successfully generated.",
+            400: "Invalid credentials."
+        }
+    )
     def post(self, request):
         username = request.data.get('username')
         password = request.data.get('password')
