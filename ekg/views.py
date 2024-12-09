@@ -60,14 +60,15 @@ class EKGImageView(ListCreateAPIView):
         }
     )
     def post(self, request, *args, **kwargs):
-        print("*" * 50, request.__dict__)
+        # print("*" * 50, request.__dict__)
         file = request.data.get('image')
         patient_id = self.request.data.get('patient')
 
-        patient = Patient.objects.get(id=patient_id, user=self.request.user)
+        patient = Patient.objects.filter(id=patient_id, user=self.request.user).first()
         if not file:
             return Response({"error": "No image provided."}, status=400)
-
+        elif not patient:
+            return Response({"error": "Patient not found."}, status=400)
         analysis = EKGAnalysis.objects.create(image=file, patient=patient)
         try:
             image = Image.open(analysis.image.path).convert('L')
