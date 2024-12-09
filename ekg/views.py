@@ -60,8 +60,8 @@ class EKGImageView(ListCreateAPIView):
         }
     )
     def post(self, request, *args, **kwargs):
+        print("*" * 50, request.__dict__)
         file = request.data.get('image')
-        print("*" * 50, request.data.__dict__)
         patient_id = self.request.data.get('patient')
 
         patient = Patient.objects.get(id=patient_id, user=self.request.user)
