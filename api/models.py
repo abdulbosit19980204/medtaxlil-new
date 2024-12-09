@@ -1,18 +1,19 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.conf import settings
+from django.utils.translation import gettext_lazy as _
 
 
 class CustomUser(AbstractUser):
-    gender = models.CharField(max_length=10, choices=[('male', 'Male'), ('female', 'Female')])
+    gender = models.CharField(_('Gender'), max_length=10, choices=[('male', 'Male'), ('female', 'Female')])
     image = models.ImageField(upload_to='users/pictures/', default='/users/pictures/default.jpg')
-    phone = models.CharField(max_length=11, blank=True, null=True)
+    phone = models.CharField(_('Phone'), max_length=11, blank=True, null=True)
 
 
 class Disease(models.Model):
-    name = models.CharField(max_length=255)  # Kasallik nomi
-    symptoms = models.TextField()  # Kasallik belgilari
-    description = models.TextField()  # Kasallik haqida batafsil ma'lumot
+    name = models.CharField(_('Name'), max_length=255)  # Kasallik nomi
+    symptoms = models.TextField(_('Symptoms'))  # Kasallik belgilari
+    description = models.TextField(_('Description'))  # Kasallik haqida batafsil ma'lumot
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -21,9 +22,9 @@ class Disease(models.Model):
 
 class Medication(models.Model):
     disease = models.ForeignKey(Disease, on_delete=models.CASCADE, related_name='medications')
-    name = models.CharField(max_length=255)  # Dori nomi
-    dosage = models.CharField(max_length=255)  # Qabul qilish dozalari
-    notes = models.TextField(blank=True, null=True)  # Qo'shimcha ma'lumot
+    name = models.CharField(_('Name'), max_length=255)  # Dori nomi
+    dosage = models.CharField(_('Dosage'), max_length=255)  # Qabul qilish dozalari
+    notes = models.TextField(_('Notes'), blank=True, null=True)  # Qo'shimcha ma'lumot
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -51,6 +52,3 @@ class EKGAnalysis(models.Model):
     diagnosis = models.CharField(max_length=255, blank=True, null=True)
     recommended_medicine = models.TextField(blank=True, null=True)
     uploaded_at = models.DateTimeField(auto_now_add=True)
-
-
-
