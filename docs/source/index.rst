@@ -80,13 +80,13 @@ Bu endpoint orqali foydalanuvchi tizimga kirishi mumkin.
 **Response**:
 
 "root":{9 items
-    -"id": 1
-    -"username": "test1"
-    -"email": ""
-    -"first_name": ""
-    -"last_name": ""
-    -"gender": "male"
-    -"image": "http://localhost:8000/media/users/pictures/default.jpg"
-    -"access_token": "e*****8kqwc"
-    -"refresh_token": "ey***CD7w"
+    - "id": 1
+    - "username": "test1"
+    - "email": ""
+    - "first_name": ""
+    - "last_name": ""
+    - "gender": "male"
+    - "image": "http://localhost:8000/media/users/pictures/default.jpg"
+    - "access_token": "e*****8kqwc"
+    - "refresh_token": "ey***CD7w"
 }
