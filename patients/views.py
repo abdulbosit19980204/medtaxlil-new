@@ -9,6 +9,8 @@ from .serializers import PrescriptionSerializer
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 from api.custom_paginator import CustomPagination
+from rest_framework.filters import SearchFilter
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 class PatientViewSet(ModelViewSet):
@@ -16,12 +18,22 @@ class PatientViewSet(ModelViewSet):
     serializer_class = PatientSerializer
     permission_classes = (IsAuthenticated,)
     pagination_class = CustomPagination  # Custom Paginationni qo‘shamiz
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+    search_fields = ['full_name', 'phone', 'complaints', 'gender', ]  # Qidiruv uchun fieldlar
+    filterset_fields = ['gender', 'age']
+    ordering_fields = ['full_name', 'age', 'created_at']
+    ordering = ['-created_at']  # Default tartib
 
 
 class PatientView(ListCreateAPIView):
     serializer_class = PatientSerializer
     permission_classes = [IsAuthenticated]
     pagination_class = CustomPagination  # Custom Paginationni qo‘shamiz
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+    filterset_fields = ['gender', 'age']
+    search_fields = ['full_name', 'phone', 'complaints', 'gender']  # Qidiruv uchun fieldlar
+    ordering_fields = ['full_name', 'age', 'created_at']
+    ordering = ['-created_at']  # Default tartib
 
     def get_queryset(self):
         return Patient.objects.filter(user=self.request.user)
