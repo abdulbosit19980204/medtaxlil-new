@@ -24,6 +24,7 @@ class PatientView(ListCreateAPIView):
         complaints = request.data.get('complaints', '')
         full_name = request.data.get('full_name', '')
         age = data['age']
+        phone = data['phone']
         gender = request.data.get('gender', '')
         if not complaints:
             return Response({"error": "Shikoyat matni kerak."}, status=status.HTTP_400_BAD_REQUEST)
@@ -40,6 +41,7 @@ class PatientView(ListCreateAPIView):
             age=age,
             gender=gender,
             user=self.request.user,
+            phone=phone,
         )
 
         serializer = PatientSerializer(complaint)

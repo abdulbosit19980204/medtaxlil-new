@@ -34,6 +34,7 @@ class Medication(models.Model):
 class Patient(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='patients')
     full_name = models.CharField(max_length=255)
+    phone = models.CharField(_('Phone number'), max_length=13, blank=True, null=True)
     age = models.PositiveIntegerField()
     gender = models.CharField(max_length=10, choices=[('male', 'Male'), ('female', 'Female')])
     complaints = models.TextField()  # Bemorning shikoyatlari
