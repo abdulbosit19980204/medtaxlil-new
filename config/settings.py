@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'ekg',
     'diseases',
     'rest_framework_simplejwt',
+    'drf_yasg',
 ]
 
 REST_FRAMEWORK = {
