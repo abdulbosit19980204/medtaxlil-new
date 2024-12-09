@@ -84,7 +84,12 @@ CORS_ALLOW_HEADERS = [
     'authorization',
     'authentication',
     'x-custom-header',
-    '*'
+    "authorization",
+    "x-csrftoken",
+    "accept",
+    "accept-encoding",
+    "origin",
+    "user-agent",
 ]
 CORS_ALLOW_METHODS = [
     "GET",
