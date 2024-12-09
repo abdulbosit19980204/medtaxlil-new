@@ -10,12 +10,14 @@ import cv2
 import numpy as np
 from scipy.signal import find_peaks
 from drf_yasg.utils import swagger_auto_schema
+from api.custom_paginator import CustomPagination
 
 
 class EKGImageView(ListCreateAPIView):
     parser_classes = [MultiPartParser]
     serializer_class = EKGAnalysisSerializer
     permission_classes = [IsAuthenticated]
+    pagination_class = CustomPagination  # Custom Paginationni qo‘shamiz
 
     def extract_waveform(self, image_array):
         """Process the image to extract the waveform."""

@@ -8,17 +8,20 @@ from .utils import analyze_complaint
 from .serializers import PrescriptionSerializer
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
+from api.custom_paginator import CustomPagination
 
 
 class PatientViewSet(ModelViewSet):
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
     permission_classes = (IsAuthenticated,)
+    pagination_class = CustomPagination  # Custom Paginationni qo‘shamiz
 
 
 class PatientView(ListCreateAPIView):
     serializer_class = PatientSerializer
     permission_classes = [IsAuthenticated]
+    pagination_class = CustomPagination  # Custom Paginationni qo‘shamiz
 
     def get_queryset(self):
         return Patient.objects.filter(user=self.request.user)
