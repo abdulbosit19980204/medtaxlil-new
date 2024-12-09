@@ -9,7 +9,6 @@ from rest_framework.response import Response
 from django.conf import settings
 from drf_yasg.utils import swagger_auto_schema
 
-
 class AuthUserView(RetrieveAPIView):
     """
     Token asosida foydalanuvchini olish

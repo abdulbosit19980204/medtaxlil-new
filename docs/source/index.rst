@@ -70,7 +70,7 @@ Get User by Token API
 
 **GET** `/api/user/`
 
-Bu endpoint orqali foydalanuvchi tizimga kirishi mumkin.
+Bu endpoint orqali foydalanuvchi token orqali malumotlarini ma'lumotlar bazasidan yuklab olamiz.
 
 **Request body**:
 
