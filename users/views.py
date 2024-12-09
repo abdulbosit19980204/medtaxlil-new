@@ -8,6 +8,20 @@ from drf_yasg.utils import swagger_auto_schema
 
 
 class RegisterView(APIView):
+    """
+       User Registration API endpoint.
+
+       **POST** `/api/register/`
+
+       - `username`: string, required
+       - `email`: string, required
+       - `password`: string, required
+
+       Response:
+       - 201: User registered successfully.
+       - 400: User already exists.
+       """
+
     @swagger_auto_schema(
         operation_description="User registration endpoint.",
         request_body=RegisterSerializer,
