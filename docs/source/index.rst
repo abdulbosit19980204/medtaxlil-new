@@ -80,13 +80,13 @@ Bu endpoint orqali foydalanuvchi tizimga kirishi mumkin.
 **Response**:
 
 "root":{9 items
-    "id": 1
-    "username": "test1"
-    "email": ""
-    "first_name": ""
-    "last_name": ""
-    "gender": "male"
-    "image": "http://localhost:8000/media/users/pictures/default.jpg"
-    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0MTQyMDMyLCJpYXQiOjE3MzM3MTAwMzIsImp0aSI6ImU0YzJkYWNmMTVjYzRiYWQ4YzA5NDFjNDgzNTA1MTc4IiwidXNlcl9pZCI6MX0.PUDqUQXMxeZq-xN_hGVb3S95GxHdNFBJom_u4r8kqwc"
-    "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczNDU3NDAzMiwiaWF0IjoxNzMzNzEwMDMyLCJqdGkiOiI5OGI5ZDQwMmM0NGU0OWIxYWI2ODg5YjNlOGQ3ZWRkMyIsInVzZXJfaWQiOjF9.6whdWdBpEs_OdtPq4hdyYmNs5g0mx_C2Bb5dArqCD7w"
+    -"id": 1
+    -"username": "test1"
+    -"email": ""
+    -"first_name": ""
+    -"last_name": ""
+    -"gender": "male"
+    -"image": "http://localhost:8000/media/users/pictures/default.jpg"
+    -"access_token": "e*****8kqwc"
+    -"refresh_token": "ey***CD7w"
 }
