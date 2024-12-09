@@ -91,13 +91,12 @@ CORS_ALLOW_HEADERS = [
     'authorization',
     'authentication',
     'x-custom-header',
-    "authorization",
     "x-csrftoken",
     "accept",
     "accept-encoding",
     "origin",
     "user-agent",
-    "multipart/form-data"
+    # "multipart/form-data"
 ]
 CORS_ALLOW_METHODS = [
     "GET",
