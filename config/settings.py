@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'corsheaders',
     'django_filters',
+
 ]
 
 REST_FRAMEWORK = {
@@ -96,6 +97,7 @@ CORS_ALLOW_HEADERS = [
     "accept-encoding",
     "origin",
     "user-agent",
+    "multipart/form-data"
 ]
 CORS_ALLOW_METHODS = [
     "GET",
