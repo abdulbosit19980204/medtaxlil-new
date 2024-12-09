@@ -21,7 +21,7 @@ class LoginResponseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'gender', 'image', 'access_token',
+        fields = ['id', 'username', 'phone', 'first_name', 'last_name', 'gender', 'image', 'access_token',
                   'refresh_token']
 
     def get_access_token(self, user):
