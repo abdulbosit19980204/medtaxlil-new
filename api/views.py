@@ -20,7 +20,7 @@ class AuthUserView(RetrieveAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_object(self):
-        print(self.request)
+        # print(self.request.__dict__)
         return self.request.user
 
 
