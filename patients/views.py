@@ -7,6 +7,13 @@ from .serializers import PatientSerializer
 from .utils import analyze_complaint
 from .serializers import PrescriptionSerializer
 from rest_framework.views import APIView
+from rest_framework.viewsets import ModelViewSet
+
+
+class PatientViewSet(ModelViewSet):
+    queryset = Patient.objects.all()
+    serializer_class = PatientSerializer
+    permission_classes = (IsAuthenticated,)
 
 
 class PatientView(ListCreateAPIView):

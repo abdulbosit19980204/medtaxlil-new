@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import AuthUserView, SetLanguageAPIView
-from patients.views import PatientView, PrescriptionView
+from patients.views import PatientView, PrescriptionView, PatientViewSet
 from ekg.views import EKGImageView
 from rest_framework.routers import DefaultRouter
 from diseases.views import DiseaseViewSet, MedicationViewSet
@@ -16,5 +16,5 @@ urlpatterns = [
 router = DefaultRouter()
 router.register(r'diseases', DiseaseViewSet, basename='disease')
 router.register(r'medications', MedicationViewSet, basename='medication')
-
+router.register(r'patient', PatientViewSet, basename='patient')
 urlpatterns += router.urls
