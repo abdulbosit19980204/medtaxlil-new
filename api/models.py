@@ -19,6 +19,9 @@ class Disease(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        ordering = ['-created_at']
+
 
 class Medication(models.Model):
     disease = models.ForeignKey(Disease, on_delete=models.CASCADE, related_name='medications')
@@ -29,6 +32,9 @@ class Medication(models.Model):
 
     def __str__(self):
         return f"{self.name} (for {self.disease.name})"
+
+    class Meta:
+        ordering = ['-created_at']
 
 
 class Patient(models.Model):
@@ -45,6 +51,9 @@ class Patient(models.Model):
     def __str__(self):
         return f"{self.full_name} ({self.age} years)"
 
+    class Meta:
+        ordering = ['-created_at']
+
 
 class EKGAnalysis(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='ekg_images')
@@ -53,3 +62,9 @@ class EKGAnalysis(models.Model):
     diagnosis = models.CharField(max_length=255, blank=True, null=True)
     recommended_medicine = models.TextField(blank=True, null=True)
     uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.patient.full_name} {self.uploaded_at}"
+
+    class Meta:
+        ordering = ['-uploaded_at']
