@@ -20,7 +20,7 @@ class EKGImageView(ListCreateAPIView):
     pagination_class = CustomPagination  # Custom Paginationni qo‘shamiz
 
     def extract_waveform(self, image_array):
-        """Process the image to extract the waveform."""
+        """Обработка изображения для извлечения формы сигнала."""
         _, binary_image = cv2.threshold(image_array, 128, 255, cv2.THRESH_BINARY_INV)
         edges = cv2.Canny(binary_image, 50, 150)
         contours, _ = cv2.findContours(edges, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -28,7 +28,7 @@ class EKGImageView(ListCreateAPIView):
         return waveform
 
     def analyze_waveform(self, waveform):
-        """Analyze the extracted waveform."""
+        """Анализ извлеченной формы сигнала."""
         signal = waveform[:, 0, 1]
         signal = (signal - np.min(signal)) / (np.max(signal) - np.min(signal))
         peaks, _ = find_peaks(signal, height=0.5, distance=30)
@@ -41,22 +41,42 @@ class EKGImageView(ListCreateAPIView):
         return signal, peaks, heart_rate
 
     def diagnose(self, heart_rate):
-        """Provide diagnosis and medicine based on heart rate."""
+        """Предоставить диагноз и рекомендации по лечению на основе частоты сердечных сокращений (ЧСС)."""
         if heart_rate is None:
-            return "Unable to detect heart rate", "Consult a cardiologist"
-        elif heart_rate < 60:
-            return "Bradycardia", "Beta-blockers"
-        elif heart_rate > 100:
-            return "Tachycardia", "Calcium channel blockers"
+            return "Невозможно определить ЧСС", "Проконсультируйтесь с кардиологом"
+        elif heart_rate < 30:
+            return "Жизнеугрожающая брадикардия", "Экстренное вмешательство (например, атропин, кардиостимуляция)"
+        elif 30 <= heart_rate < 40:
+            return "Тяжелая брадикардия", "Неотложная медицинская помощь"
+        elif 40 <= heart_rate < 50:
+            return "Умеренная брадикардия", "Консультация кардиолога для оценки состояния"
+        elif 50 <= heart_rate < 60:
+            return "Легкая брадикардия", "Возможен прием бета-блокаторов или наблюдение"
+        elif 60 <= heart_rate <= 100:
+            return "Нормальный ритм сердца", "Медикаментозное лечение не требуется"
+        elif 101 <= heart_rate <= 110:
+            return "Повышенная ЧСС", "Контроль и снижение стресса"
+        elif 111 <= heart_rate <= 130:
+            return "Легкая тахикардия", "Изменения образа жизни и наблюдение"
+        elif 131 <= heart_rate <= 150:
+            return "Умеренная тахикардия", "Антагонисты кальция или бета-блокаторы"
+        elif 151 <= heart_rate <= 170:
+            return "Тяжелая тахикардия", "Антиаритмические препараты и тщательное наблюдение"
+        elif 171 <= heart_rate <= 190:
+            return "Фибрилляция предсердий с быстрым желудочковым ответом", "Консультация кардиолога для контроля частоты"
+        elif 191 <= heart_rate <= 220:
+            return "Желудочковая тахикардия", "Неотложная медицинская помощь"
+        elif heart_rate > 220:
+            return "Критическое состояние", "Немедленное медицинское вмешательство"
         else:
-            return "Normal Heart Rhythm", "No medicine needed"
+            return "Неопознанный паттерн", "Консультация специалиста для дальнейшей оценки"
 
     @swagger_auto_schema(
-        operation_description="Analyze an EKG image and provide diagnosis.",
+        operation_description="Анализ ЭКГ изображения и предоставление диагноза.",
         request_body=EKGAnalysisSerializer,
         responses={
-            200: "EKG image analyzed successfully.",
-            400: "Invalid EKG image."
+            200: "ЭКГ изображение успешно проанализировано.",
+            400: "Недопустимое ЭКГ изображение."
         }
     )
     def post(self, request, *args, **kwargs):
@@ -66,9 +86,9 @@ class EKGImageView(ListCreateAPIView):
 
         patient = Patient.objects.filter(id=patient_id, user=self.request.user).first()
         if not file:
-            return Response({"error": "No image provided."}, status=400)
+            return Response({"error": "Изображение не предоставлено."}, status=400)
         elif not patient:
-            return Response({"error": "Patient not found."}, status=400)
+            return Response({"error": "Пациент не найден."}, status=400)
         analysis = EKGAnalysis.objects.create(image=file, patient=patient)
         try:
             image = Image.open(analysis.image.path).convert('L')
