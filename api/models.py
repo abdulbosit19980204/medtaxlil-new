@@ -5,15 +5,19 @@ from django.utils.translation import gettext_lazy as _
 
 
 class CustomUser(AbstractUser):
-    gender = models.CharField(_('Gender'), max_length=10, choices=[('male', 'Male'), ('female', 'Female')])
+    gender = models.CharField(_('Gender'), max_length=10, choices=[('male', _('Male')), ('female', _('Female'))])
     image = models.ImageField(upload_to='users/pictures/', default='/users/pictures/default.jpg')
     phone = models.CharField(_('Phone'), max_length=11, blank=True, null=True)
 
+    class Meta:
+        verbose_name = _('User')
+        verbose_name_plural = _('Users')
+
 
 class Disease(models.Model):
-    name = models.CharField(_('Name'), max_length=255)  # Kasallik nomi
-    symptoms = models.TextField(_('Symptoms'))  # Kasallik belgilari
-    description = models.TextField(_('Description'))  # Kasallik haqida batafsil ma'lumot
+    name = models.CharField(_('Name'), max_length=255)
+    symptoms = models.TextField(_('Symptoms'))
+    description = models.TextField(_('Description'))
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -21,13 +25,15 @@ class Disease(models.Model):
 
     class Meta:
         ordering = ['-created_at']
+        verbose_name = _('Disease')
+        verbose_name_plural = _('Diseases')
 
 
 class Medication(models.Model):
     disease = models.ForeignKey(Disease, on_delete=models.CASCADE, related_name='medications')
-    name = models.CharField(_('Name'), max_length=255)  # Dori nomi
-    dosage = models.CharField(_('Dosage'), max_length=255)  # Qabul qilish dozalari
-    notes = models.TextField(_('Notes'), blank=True, null=True)  # Qo'shimcha ma'lumot
+    name = models.CharField(_('Name'), max_length=255)
+    dosage = models.CharField(_('Dosage'), max_length=255)
+    notes = models.TextField(_('Notes'), blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -35,6 +41,8 @@ class Medication(models.Model):
 
     class Meta:
         ordering = ['-created_at']
+        verbose_name = _('Medication')
+        verbose_name_plural = _('Medications')
 
 
 class Patient(models.Model):
@@ -42,10 +50,10 @@ class Patient(models.Model):
     full_name = models.CharField(max_length=255)
     phone = models.CharField(_('Phone number'), max_length=13, blank=True, null=True)
     age = models.PositiveIntegerField()
-    gender = models.CharField(max_length=10, choices=[('male', 'Male'), ('female', 'Female')])
-    complaints = models.TextField()  # Bemorning shikoyatlari
+    gender = models.CharField(max_length=10, choices=[('male', _('Male')), ('female', _('Female'))])
+    complaints = models.TextField(_('Complaints'))
     predicted_disease = models.ForeignKey(Disease, on_delete=models.SET_NULL, null=True, blank=True)
-    analysis_notes = models.TextField(blank=True, null=True)  # Tahlil natijalari haqida eslatmalar
+    analysis_notes = models.TextField(_('Analysis Notes'), blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -53,14 +61,16 @@ class Patient(models.Model):
 
     class Meta:
         ordering = ['-created_at']
+        verbose_name = _('Patient')
+        verbose_name_plural = _('Patients')
 
 
 class EKGAnalysis(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='ekg_images')
     image = models.ImageField(upload_to='ekg_images/')
-    analysis_data = models.JSONField(blank=True, null=True)  # Store extracted data
-    diagnosis = models.CharField(max_length=255, blank=True, null=True)
-    recommended_medicine = models.TextField(blank=True, null=True)
+    analysis_data = models.JSONField(blank=True, null=True)
+    diagnosis = models.CharField(_('Diagnosis'), max_length=255, blank=True, null=True)
+    recommended_medicine = models.TextField(_('Recommended Medicine'), blank=True, null=True)
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -68,3 +78,5 @@ class EKGAnalysis(models.Model):
 
     class Meta:
         ordering = ['-uploaded_at']
+        verbose_name = _('EKG Analysis')
+        verbose_name_plural = _('EKG Analyses')
