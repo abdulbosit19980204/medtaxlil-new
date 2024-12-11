@@ -4,6 +4,12 @@ from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 
 
+def get_last_disease():
+    # Oxirgi mavjud Disease yozuvini qaytaradi
+    last_disease = Disease.objects.last()
+    return last_disease.id if last_disease else None
+
+
 class CustomUser(AbstractUser):
     gender = models.CharField(_('Gender'), max_length=10, choices=[('male', _('Male')), ('female', _('Female'))])
     image = models.ImageField(upload_to='users/pictures/', default='/users/pictures/default.jpg')
@@ -30,7 +36,7 @@ class Disease(models.Model):
 
 
 class Medication(models.Model):
-    disease = models.ForeignKey(Disease, on_delete=models.CASCADE, related_name='medications')
+    disease = models.ForeignKey(Disease, on_delete=models.CASCADE, related_name='medications', default=get_last_disease)
     name = models.CharField(_('Name'), max_length=255)
     dosage = models.CharField(_('Dosage'), max_length=255)
     notes = models.TextField(_('Notes'), blank=True, null=True)
