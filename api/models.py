@@ -7,7 +7,7 @@ from django.utils.translation import gettext_lazy as _
 class CustomUser(AbstractUser):
     gender = models.CharField(_('Gender'), max_length=10, choices=[('male', _('Male')), ('female', _('Female'))])
     image = models.ImageField(upload_to='users/pictures/', default='/users/pictures/default.jpg')
-    phone = models.CharField(_('Phone'), max_length=11, blank=True, null=True)
+    phone = models.CharField(_('Phone'), max_length=13, blank=True, null=True)
 
     class Meta:
         verbose_name = _('User')
