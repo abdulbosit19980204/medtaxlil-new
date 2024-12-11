@@ -33,14 +33,5 @@ def analyze_complaint(complaint_text):
 
     # Agar moslik 0.5 dan yuqori bo'lsa, mos kasallikni qaytaradi
     if highest_ratio >= 0.5:
-        return {
-            "name": best_match.name,
-            "symptoms": best_match.symptoms,
-            "description": best_match.description,
-            "match_ratio": f"{highest_ratio:.2f}"
-        }
-
-    return {
-        "error": "No significant match found.",
-        "match_ratio": f"{highest_ratio:.2f}"
-    }
+        return best_match, f"Match ratio: {highest_ratio:.2f}"
+    return None, "No significant match found."
