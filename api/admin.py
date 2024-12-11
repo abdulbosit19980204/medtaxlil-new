@@ -1,7 +1,8 @@
 from django.contrib import admin
-from import_export.admin import ExportMixin, ImportExportModelAdmin
-from import_export import resources
-from .models import EKGAnalysis, Patient, CustomUser, Disease, Medication
+from import_export.admin import ImportExportModelAdmin
+from import_export import resources, fields
+from import_export.widgets import ForeignKeyWidget
+from .models import CustomUser, Disease, Medication, Patient, EKGAnalysis
 
 
 # CustomUser uchun resurs
@@ -36,9 +37,27 @@ class DiseaseAdmin(ImportExportModelAdmin):
 
 # Medication uchun resurs
 class MedicationResource(resources.ModelResource):
+    # Create a ForeignKeyWidget for the disease field
+    disease = fields.Field(
+        column_name='disease__name',
+        attribute='disease',
+        widget=ForeignKeyWidget(Disease, 'name')
+    )
+
     class Meta:
         model = Medication
         fields = ('id', 'name', 'disease__name', 'dosage', 'notes', 'created_at')
+
+    def before_import_row(self, row, **kwargs):
+        disease_name = row.get('disease__name')
+        if disease_name:
+            disease = Disease.objects.filter(name=disease_name).first()
+            if disease:
+                row['disease'] = disease  # Assign the Disease instance
+            else:
+                raise ValueError(f"Disease '{disease_name}' does not exist. Please add it to the database first.")
+        else:
+            raise ValueError("The 'disease__name' field is missing in the row.")
 
 
 @admin.register(Medication)
@@ -51,6 +70,8 @@ class MedicationAdmin(ImportExportModelAdmin):
 
 # Patient uchun resurs
 class PatientResource(resources.ModelResource):
+    user__username = fields.Field(attribute='user__username', column_name='user__username')
+
     class Meta:
         model = Patient
         fields = ('id', 'full_name', 'age', 'gender', 'user__username', 'phone', 'complaints', 'created_at')
@@ -66,6 +87,8 @@ class PatientAdmin(ImportExportModelAdmin):
 
 # EKGAnalysis uchun resurs
 class EKGAnalysisResource(resources.ModelResource):
+    patient__full_name = fields.Field(attribute='patient__full_name', column_name='patient__full_name')
+
     class Meta:
         model = EKGAnalysis
         fields = ('id', 'patient__full_name', 'image', 'diagnosis', 'recommended_medicine', 'uploaded_at')
