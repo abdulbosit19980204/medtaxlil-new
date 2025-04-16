@@ -47,21 +47,21 @@ ecg-med-taxlil/
 Repositoriyani klonlang:
 
 
-git clone https://github.com/abdulbosit19980204/ecg.med-taxlil.uz.git
+git clone https://github.com/abdulbosit19980204/medtaxlil-new.git
 cd ecg.med-taxlil.uz
 
-Virtual muhit yarating va faollashtiring:
+-**Virtual muhit yarating va faollashtiring:**
 
 python -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
 
-Kerakli kutubxonalarni o‘rnating:
+-**Kerakli kutubxonalarni o‘rnating:**
 
 pip install -r requirements.txt
 
-PostgreSQL sozlamalarini .env yoki settings.py faylida kiriting.
+-**PostgreSQL sozlamalarini .env yoki settings.py faylida kiriting.**
 
-Migratsiyalarni bajaring va serverni ishga tushiring:
+-**Migratsiyalarni bajaring va serverni ishga tushiring:**
 
 python manage.py migrate
 python manage.py runserver
